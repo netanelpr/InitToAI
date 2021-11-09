@@ -1,3 +1,4 @@
+import numpy
 import a_star_search as astar
 import breadth_first_search as bfs
 from route_grid import create_grid
@@ -10,7 +11,7 @@ ROUTE_LEN_2 = 291
 
 def grid_test(test_num=1, print_route=False):
     grid, start_location, end_location = create_grid(test_num)
-    print(grid[0, 0])
+    print(numpy.shape(grid))
     print("--- AStar solver ---")
     start_time = time.time()
     s_astar = astar.astar_search(grid, start_location, end_location)

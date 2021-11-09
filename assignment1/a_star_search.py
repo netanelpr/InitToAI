@@ -1,66 +1,50 @@
 import pandas as pd
-import heapq
-
-class PrioreyQueue:
-    
-    def __init__(self):
-        self.heap = []
-        self.size = 0
-
-    def insert(self, data):
-        heapq.heappush(self.heap, data)
-        self.size =+ 1
-
-    def pop(self):
-        self.size =- 1
-        return heapq.heappop(self.heap)
-
-    def empty(self):
-        return self.size == 0
-
+from queue import PriorityQueue
 # The function initializes and returns open
 def init_open():
-    return PrioreyQueue()
+    return PriorityQueue()
 
 # The function inserts s into open
 def insert_to_open(open_list, s):  # Should be implemented according to the open list data structure
-    open_list.insert(s)
+    open_list.put(s)
 
 # The function returns the best node in open (according to the search algorithm)
 def get_best(open_list):
-    return open_list.pop()
+    return open_list.get()
 
 # The function returns neighboring locations of s_location
 def get_neighbors(grid, s_location):
     neighbors = []
     currentX = s_location[0]
     currentY = s_location[1]
-    gridSize = len(grid)
+    shape = grid.shape
+    gridXSize = shape[0]
+    gridYSize = shape[1]
     
-    if(currentX < gridSize - 1):
+    if(currentX < gridXSize - 1):
         neighbors.append((currentX + 1, currentY))
     if(currentX > 0):
-        neighbors.append((currentX -1, currentY))
+        neighbors.append((currentX - 1, currentY))
 
-    if(currentY < gridSize - 1):
+    if(currentY < gridYSize - 1):
         neighbors.append((currentX, currentY + 1))
     if(currentY > 0):
         neighbors.append((currentX, currentY - 1))
 
+    retNeighbors = []
     for neigbor in neighbors:
-        if(grid[neigbor[0], neigbor[1]] == '@'):
-            neighbors.remove(neigbor)
+        if(grid[neigbor] == '.'):
+            retNeighbors.append(neigbor)
 
-    return neighbors
+    return retNeighbors
 
 # The function returns whether or not s_location is the goal location
 def is_goal(s_location, goal_location):
-    return s_location[0] == goal_location[0] and s_location[1] == goal_location[1]
+    return s_location == goal_location
 
 # The function estimates the cost to get from s_location to goal_location
 def calculate_heuristic(s_location, goal_location):
-    return abs(s_location[0] - goal_location[0]) + \
-        abs(s_location[0] - goal_location[0])
+    return abs(s_location[0] - goal_location[0]) + abs(s_location[1] - goal_location[1])
 
 # Locations are tuples of (x, y)
 def astar_search(grid, start_location, goal_location):
