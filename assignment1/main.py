@@ -8,7 +8,6 @@ import copy
 ROUTE_LEN_1 = 39
 ROUTE_LEN_2 = 291
 
-
 def grid_test(test_num=1, print_route=False):
     grid, start_location, end_location = create_grid(test_num)
     print(numpy.shape(grid))
